@@ -13,10 +13,10 @@ $KEYVAULT_NAME="akvlatino-net-online"
 az group create --name "${RESOURCE_GROUP}" --location "${LOCATION}"
 
 # Creación de clúster de AKS, se habilita workload identity y OIDC
-az aks create -g "${RESOURCE_GROUP}" -n myAKSCluster --enable-oidc-issuer --enable-workload-identity --generate-ssh-keys
+az aks create -g "${RESOURCE_GROUP}" -n $CLUSTER_NAME --enable-oidc-issuer --enable-workload-identity --generate-ssh-keys
 
 # Obtener la dirección URL del emisor de OIDC
-$AKS_OIDC_ISSUER="$(az aks show -n myAKSCluster -g "${RESOURCE_GROUP}" --query "oidcIssuerProfile.issuerUrl" -otsv)"
+$AKS_OIDC_ISSUER="$(az aks show -n $CLUSTER_NAME -g "${RESOURCE_GROUP}" --query "oidcIssuerProfile.issuerUrl" -otsv)"
 
 # Creación de una entidad administrada
 az identity create --name "${USER_ASSIGNED_IDENTITY_NAME}" --resource-group "${RESOURCE_GROUP}" --location "${LOCATION}" --subscription "${SUBSCRIPTION}"
@@ -24,7 +24,7 @@ az identity create --name "${USER_ASSIGNED_IDENTITY_NAME}" --resource-group "${R
 # Obtener el ID de la Entidad Administrada (Se utilizará la opción User Assigned de una Entidad Administrada)
 $USER_ASSIGNED_CLIENT_ID="$(az identity show --resource-group "${RESOURCE_GROUP}" --name "${USER_ASSIGNED_IDENTITY_NAME}" --query 'clientId' -otsv)"
 
-# Obtener credenciales de AKS
+# Obtener credenciales de AKS para Kubectl
 az aks get-credentials --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME --overwrite-existing
 
 # Creación de cuenta de servicios de Kubernetes
@@ -38,7 +38,7 @@ metadata:
   namespace: "$($SERVICE_ACCOUNT_NAMESPACE)"
 "@
 
-# Despliegue de la cuenta de servicios
+# Despliegue de la cuenta de servicios para kubernetes
 $k8sServiceAccountWI | kubectl apply -f -
 
 # Creación de la Identidad Federada
