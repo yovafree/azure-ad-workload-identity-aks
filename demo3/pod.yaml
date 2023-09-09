@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dotnetdemo
+  namespace: default
+  labels:
+    azure.workload.identity/use: "true"
+spec:
+  serviceAccountName: workload-identity-sa
+  containers:
+  - name: dotnetdemo
+    image: yovafree/demo-net:wi-akv
+    env:
+    - name: KEYVAULT_URL
+      value: "akvlatino-net-online1"
+    - name: SECRET_NAME
+      value: "secreto1"
+  nodeSelector:
+    kubernetes.io/os: linux

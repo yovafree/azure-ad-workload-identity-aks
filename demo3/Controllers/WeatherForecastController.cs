@@ -38,9 +38,11 @@ public class WeatherForecastController : ControllerBase
         string keyVaultUrl = Environment.GetEnvironmentVariable("KEYVAULT_URL");
         string secretName = Environment.GetEnvironmentVariable("SECRET_NAME");
 
+        var kvUri = "https://" + keyVaultUrl + ".vault.azure.net";
+
         var client = new SecretClient(
-            new Uri(keyVaultUrl),
-            new WorkloadIdentityCredential());
+            new Uri(kvUri),
+            new DefaultAzureCredential());
 
         KeyVaultSecret secret = client.GetSecretAsync(secretName).Result;
 

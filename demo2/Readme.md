@@ -27,5 +27,5 @@ $k8sPod | kubectl apply -f -
 ```
 az login --federated-token "$(cat $AZURE_FEDERATED_TOKEN_FILE)" --service-principal -u $AZURE_CLIENT_ID -t $AZURE_TENANT_ID
 
-az keyvault secret show --name "secreto1" --vault-name "akvlatino-net-online" --query "value"
+az keyvault secret show --name "secreto1" --vault-name "akvlatino-net-online1" --query "value"
 ```
