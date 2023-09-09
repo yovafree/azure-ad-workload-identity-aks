@@ -7,7 +7,7 @@ $SUBSCRIPTION="$(az account show --query id --output tsv)"
 $USER_ASSIGNED_IDENTITY_NAME="myIdentity"
 $FEDERATED_IDENTITY_CREDENTIAL_NAME="myFedIdentity"
 $CLUSTER_NAME="myAKSCluster"
-$KEYVAULT_NAME="akvlatino-net-online"
+$KEYVAULT_NAME="akvlatino-net-online1"
 
 # Creacion de grupo de recursos en Azure
 az group create --name "${RESOURCE_GROUP}" --location "${LOCATION}"
